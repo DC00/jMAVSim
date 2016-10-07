@@ -5,8 +5,8 @@ import me.drton.jmavlib.mavlink.MAVLinkSchema;
 import me.drton.jmavsim.Visualizer3D.ViewTypes;
 import me.drton.jmavsim.Visualizer3D.ZoomModes;
 import me.drton.jmavsim.vehicle.AbstractMulticopter;
-import me.drton.jmavsim.vehicle.Quadcopter;
-
+import me.drton.jmavsim.vehicle.Tricopter;
+import me.drton.jmavsim.vehicle.Hexacopter;
 import org.xml.sax.SAXException;
 
 import javax.swing.JFrame;
@@ -298,15 +298,14 @@ public class Simulator implements Runnable {
 
     private AbstractMulticopter buildMulticopter() {
         Vector3d gc = new Vector3d(0.0, 0.0, 0.0);  // gravity center
-        AbstractMulticopter vehicle = new Quadcopter(world, DEFAULT_VEHICLE_MODEL, "x", "default", 
-                                                        0.33 / 2, 4.0, 0.05, 0.005, gc);
+        AbstractMulticopter vehicle = new Tricopter(world, DEFAULT_VEHICLE_MODEL, "x", 0.1934, 4.0, 0.05, 0.005, gc);
         Matrix3d I = new Matrix3d();
         // Moments of inertia
-        I.m00 = 0.005;  // X
-        I.m11 = 0.005;  // Y
-        I.m22 = 0.009;  // Z
+        I.m00 = 0.23585;  // X
+        I.m11 = 0.08357;  // Y
+        I.m22 = 0.30953;   // Z
         vehicle.setMomentOfInertia(I);
-        vehicle.setMass(0.8);
+        vehicle.setMass(1.0); // mass of the vehicle, too light the vehicle will start climbing on arm
         vehicle.setDragMove(0.01);
         SimpleSensors sensors = new SimpleSensors();
         sensors.setGPSInterval(50);
@@ -325,13 +324,13 @@ public class Simulator implements Runnable {
     // 200mm, 250g small quad X "Leora" with AutoQuad style layout (clockwise from front)
     private AbstractMulticopter buildAQ_leora() {
         Vector3d gc = new Vector3d(0.0, 0.0, 0.0);  // gravity center
-        AbstractMulticopter vehicle = new Quadcopter(world, DEFAULT_VEHICLE_MODEL, "x", "cw_fr", 0.1, 1.35, 0.02, 0.0005, gc);
+        AbstractMulticopter vehicle = new Tricopter(world, DEFAULT_VEHICLE_MODEL, "x", 0.1934, 1.35, 0.02, 0.0005, gc);
         
         Matrix3d I = new Matrix3d();
         // Moments of inertia
-        I.m00 = 0.0017;  // X
-        I.m11 = 0.0017;  // Y
-        I.m22 = 0.002;   // Z
+        I.m00 = 0.23585;  // X
+        I.m11 = 0.08357;  // Y
+        I.m22 = 0.30953;   // Z
         
         vehicle.setMomentOfInertia(I);
         vehicle.setMass(0.25);
